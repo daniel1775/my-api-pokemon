@@ -1,23 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import Card from "./views/Card";
 
 function App() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const getApi = async () => {
+      fetch("https://pokeapi.co/api/v2/pokemon")
+      .then(resp => resp.json())
+      .then(dat => {
+        dat.results.forEach(value => {
+            fetch(value.url)
+            .then(resp2 => resp2.json())
+            .then(dat2 => {
+              setData((prev) => [...prev, {
+                id: dat2.id,
+                name: dat2.name,
+                img: dat2.sprites.front_default,
+                type: dat2.types[0].type.name
+              }]);
+              /* setData([...data, {
+                id: dat2.id,
+                name: dat2.name,
+                img: dat2.sprites.front_default
+              }]); */
+              /* let pokemon = {
+                id: dat2.id,
+                name: dat2.name,
+                type: dat2.types[0].type.name,
+                img: dat2.sprites.front_default
+              };
+              //let pokemons = [...pokemons, pokemon]
+              setData(data.concat(pokemon)); */
+            });
+        });
+      })
+      console.log("DATA: "+data);
+    }
+    getApi();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {data && data.map(value => <Card key={value.id} data={value}/>)}
     </div>
   );
 }
