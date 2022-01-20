@@ -1,3 +1,18 @@
 .App{
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content{
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1000px;
+}
+
+@media (min-width: 1400px){
+  .content{
+    max-width: 1200px;
+  }
 }
