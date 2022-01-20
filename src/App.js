@@ -31,7 +31,7 @@ function App() {
       <h1 className="content__title">Pokeapi</h1>
       <div className="content">
         {console.log(data)}
-        {data && data.map(value => <Card key={value.id} data={value}/>)}
+        {data.map(value => <Card key={value.id} data={value}/>)}
       </div>
     </div>
   );
